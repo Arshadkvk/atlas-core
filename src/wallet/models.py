@@ -28,7 +28,9 @@ class Transaction(models.Model):
         DEBIT = "PURCHASE", "Purchase"
         REWARD = "REWARD", "Reward"
 
-    wallet = models.ForeignKey(Wallet, on_delete=models.CASCADE)
+    wallet = models.ForeignKey(
+        Wallet, on_delete=models.CASCADE, related_name="transactions"
+    )
     amount = models.PositiveBigIntegerField()
     transaction_type = models.CharField(
         max_length=10,

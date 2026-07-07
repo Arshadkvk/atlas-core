@@ -36,3 +36,16 @@ def create_idempotency_record(
         response_status=response_status,
         response_body=response_body,
     )
+
+
+import hashlib
+import json
+
+
+def create_request_hash(data):
+    """
+    Generate a deterministic hash of the request body.
+    """
+    request_json = json.dumps(data, sort_keys=True)
+
+    return hashlib.sha256(request_json.encode()).hexdigest()
