@@ -25,6 +25,7 @@ def create_idempotency_record(
     request_hash,
     response_status,
     response_body,
+    expires_at=None,
 ):
     """
     Store the response so duplicate requests
@@ -35,6 +36,7 @@ def create_idempotency_record(
         request_hash=request_hash,
         response_status=response_status,
         response_body=response_body,
+        expires_at=expires_at,
     )
 
 

@@ -10,6 +10,7 @@ class Reward(models.Model):
         CURRENCY = "CURRENCY"
         ITEM = "ITEM"
 
+    reward_id = models.CharField(max_length=255, unique=True, null=True, blank=True)
     name = models.CharField(max_length=100)
     reward_type = models.CharField(max_length=50, choices=RewardType.choices)
     currency_amount = models.PositiveBigIntegerField(null=True, blank=True)

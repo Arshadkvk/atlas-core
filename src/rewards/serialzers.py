@@ -10,4 +10,4 @@ class RewardSerializer(serializers.ModelSerializer):
 
 
 class RewardClaimSerializer(serializers.Serializer):
-    playerId = serializers.IntegerField(min_value=1)
+    playerId = serializers.CharField(max_length=255, required=True)

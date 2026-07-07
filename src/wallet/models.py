@@ -59,7 +59,14 @@ class Transaction(models.Model):
         ]
 
     def __str__(self):
-        return f"{self.transaction_type} - {self.amount}"
+        if self.transaction_type == self.TransactionTypes.CREDIT:
+            return f"Credit of {self.amount} to {self.wallet}"
+        elif self.transaction_type == self.TransactionTypes.DEBIT:
+            return f"Debit of {self.amount} from {self.wallet}"
+        elif self.transaction_type == self.TransactionTypes.REWARD:
+            return f"Reward Added"
+        else:
+            return f"Transaction of {self.amount} for {self.wallet}"
 
 
 class IdempotencyKey(models.Model):

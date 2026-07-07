@@ -4,7 +4,7 @@ from .views import RewardClaimView
 
 urlpatterns = [
     path(
-        "<int:reward_id>/claim/",
+        "<str:reward_id>/claim/",
         RewardClaimView.as_view(),
         name="reward-claim",
     ),
