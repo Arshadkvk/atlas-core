@@ -40,16 +40,29 @@ class WalletCreditView(APIView):
 class WalletPurchaseView(APIView):
 
     def post(self, request, player_id):
+
         serializer = PurchaseSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        # TODO:
-        # Call wallet service
+        idempotency_key = request.headers.get("Idempotency-Key")
 
-        return Response(
-            {"message": "Not implemented"},
-            status=status.HTTP_501_NOT_IMPLEMENTED,
+        if not idempotency_key:
+            return Response(
+                {
+                    "error": "IDEMPOTENCY_KEY_REQUIRED",
+                    "message": "Idempotency-Key header is required.",
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        data = WalletService.purchase_item(
+            player_id=player_id,
+            item_id=serializer.validated_data["itemId"],
+            price=serializer.validated_data["price"],
+            idempotency_key=idempotency_key,
         )
+
+        return Response(data, status=status.HTTP_200_OK)
 
 
 class WalletDetailView(APIView):
