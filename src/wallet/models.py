@@ -11,12 +11,7 @@ class Wallet(models.Model):
         on_delete=models.CASCADE,
         related_name="wallet",
     )
-    balance = models.DecimalField(
-        max_digits=10,
-        decimal_places=2,
-        default=0.0,
-        validators=[MinValueValidator(Decimal("0.00"))],
-    )
+    balance = models.PositiveBigIntegerField(default=0)
 
     def __str__(self):
         return f"Wallet - {self.player.user_name}"
@@ -30,15 +25,11 @@ class Transaction(models.Model):
 
     class TransactionTypes(models.TextChoices):
         CREDIT = "CREDIT", "Credit"
-        DEBIT = "DEBIT", "Debit"
+        DEBIT = "PURCHASE", "Purchase"
         REWARD = "REWARD", "Reward"
 
     wallet = models.ForeignKey(Wallet, on_delete=models.CASCADE)
-    amount = models.DecimalField(
-        max_digits=10,
-        decimal_places=2,
-        validators=[MinValueValidator(Decimal("0.00"))],
-    )
+    amount = models.PositiveBigIntegerField()
     transaction_type = models.CharField(
         max_length=10,
         choices=TransactionTypes.choices,
