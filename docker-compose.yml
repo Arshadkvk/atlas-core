@@ -1,0 +1,40 @@
+services:
+
+  db:
+    image: postgres:16
+    container_name: atlas_db
+    restart: always
+
+    environment:
+      POSTGRES_DB: atlas_db
+      POSTGRES_USER: atlas_user
+      POSTGRES_PASSWORD: atlas__secure_pass2026
+
+    ports:
+      - "5433:5432"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  web:
+    build:
+      context: ./src
+
+    container_name: atlas_backend
+
+    command: python manage.py runserver 0.0.0.0:8000
+
+    volumes:
+      - ./src:/app
+
+    ports:
+      - "8001:8000"
+
+    depends_on:
+      - db
+
+    env_file:
+      - ./.env
+
+volumes:
+  postgres_data:
